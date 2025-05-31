@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kayıt Ol</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+
+    .register-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #219150;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+    }
+
+    a {
+      display: block;
+      margin-top: 1rem;
+      color: #333;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Kayıt Ol</h2>
+    <input type="text" id="username" placeholder="Kullanıcı Adı" />
+    <input type="password" id="password" placeholder="Şifre" />
+    <div class="error" id="errorMsg"></div>
+    <button onclick="register()">Kayıt Ol</button>
+    <a href="login.html">Zaten hesabın var mı? Giriş yap</a>
+  </div>
+
+  <script>
+    async function register() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (!username || !password) {
+        errorMsg.textContent = "Lütfen tüm alanları doldurun.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert("Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.");
+          window.location.href = "login.html";
+        } else {
+          errorMsg.textContent = result.message || "Kayıt başarısız.";
+        }
+      } catch (err) {
+        errorMsg.textContent = "Sunucuya bağlanılamadı.";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Sitesi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+
+    header {
+      background: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header button {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    video {
+      width: 100%;
+      max-height: 500px;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      background: black;
+    }
+
+    .video-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .video-thumb {
+      cursor: pointer;
+      width: 200px;
+      text-align: center;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .video-thumb:hover {
+      transform: scale(1.03);
+    }
+
+    .video-thumb video {
+      width: 100%;
+      border-bottom: 1px solid #eee;
+    }
+
+    .video-title {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Video Sitesi</h1>
+    <button onclick="logout()">Çıkış Yap</button>
+  </header>
+
+  <div class="container">
+    <video id="mainVideo" controls>
+      <source src="video1.mp4" type="video/mp4" />
+      Tarayıcınız video etiketini desteklemiyor.
+    </video>
+
+    <div class="video-list">
+      <div class="video-thumb" onclick="playVideo('video1.mp4')">
+        <video muted>
+          <source src="video1.mp4" type="video/mp4" />
+        </video>
+        <div class="video-title">Video 1</div>
+      </div>
+
+      <div class="video-thumb" onclick="playVideo('video2.mp4')">
+        <video muted>
+          <source src="video2.mp4" type="video/mp4" />
+        </video>
+        <div class="video-title">Video 2</div>
+      </div>
+
+      <div class="video-thumb" onclick="playVideo('video3.mp4')">
+        <video muted>
+          <source src="video3.mp4" type="video/mp4" />
+        </video>
+        <div class="video-title">Video 3</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "login.html";
+    }
+
+    function playVideo(src) {
+      const videoPlayer = document.getElementById('mainVideo');
+      videoPlayer.src = src;
+      videoPlayer.play();
+    }
+  </script>
+</body>
+</html>
